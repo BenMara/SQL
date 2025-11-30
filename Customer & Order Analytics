@@ -1,3 +1,5 @@
+--In this SQL, I'm querying a database with multiple tables in it to quantify statistics about customer and order data. In some of the queries I've added my own editing/filtering to make it easier to read like changing names of columns or rounding the integer outputs to improve readability.
+
 -- #1 How many many unique orders were placed in January? In other words, how many distinct order ids do we have?
 
 SELECT COUNT(distinct orderID) AS 'Total Jan Sales'
@@ -66,3 +68,4 @@ WHERE length(orderID) = 6
 AND orderID <> 'Order ID'
 AND FebSales.Quantity > 2
 ;
+
