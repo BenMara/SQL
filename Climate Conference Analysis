@@ -202,3 +202,57 @@ ON vips.member_id = reservations.member_id
     ON reservations.hotel = hotels.hotel_id
 GROUP BY hotels.hotel_name
 ;
+
+--#8 How many of each type of headphone were sold in February?
+
+SELECT SUM(Quantity) AS 'Quantity', Product
+FROM BIT_DB.FebSales
+WHERE length(orderID) = 6
+AND orderID <> 'Order ID'
+AND Product LIKE '%Headphones%'
+GROUP BY Product
+;
+
+--#9 What was the average amount spent per account in February?
+
+SELECT sum(quantity * price)/count(cust.acctnum) AS 'Avg Spent/Acct'
+FROM BIT_DB.FebSales
+    LEFT JOIN customers AS 'cust'
+    ON FebSales.orderID = cust.order_id
+WHERE length(orderID) = 6
+AND orderID <> 'Order ID'
+;
+
+--#10 Find order ids from Georgia (GA) where the order has an average price greater than $1,000. Only find orders from dates beginning with ‘04/1’. Assume that the dates are stored in the MM/DD/YY HH:MM format.
+
+SELECT orderID
+FROM BIT_DB.AprSales
+WHERE length(orderID) = 6
+AND orderID <> 'Order ID'
+AND location LIKE '%GA%'
+AND orderdate LIKE '04/1%'
+GROUP BY orderID
+HAVING AVG(price) > 1000
+;
+
+--#11 Reverse Engineer a query given a table (since I cant paste a table, I saw all the orderID's were the same besides the second to last number)
+
+SELECT location, orderID
+FROM BIT_DB.MaySales
+WHERE length(orderID) = 6
+AND orderID <> 'Order ID'
+AND orderID LIKE '1943_5'
+ORDER BY orderID
+;
+
+--#12 Which product brought in the most revenue in January and how much revenue did it bring in total?
+
+SELECT Product
+, sum(quantity * price) AS 'Revenue'
+FROM JanSales
+WHERE length(orderID) = 6
+AND orderID <> 'Order ID'
+GROUP BY Product 
+ORDER BY Revenue desc
+LIMIT 1
+;
